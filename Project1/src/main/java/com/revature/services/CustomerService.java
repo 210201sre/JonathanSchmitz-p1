@@ -135,10 +135,22 @@ public class CustomerService {
 		// deleted in between validation and info gathering
 	}
 
-	public User modUser(User u, Key k) {
+	public int modUser(User u, Key k) {
+	//public User modUser(User u, Key k) {
 		MDC.put("Action", "Modify User");
 		if (u.getUid() == k.getUid()) {
-			return userDAO.save(u);
+			//TODO
+			// User u2 = findById();
+			// for every User u field
+			//    if field != u2.field && field != null/ 0?
+			//        u2.field = u.field //using userDAO.save
+			//    else
+			//        u1.field = u2.field //using userDAO.update
+			
+			// return userDAO.save(u2);
+			// return userDAO.update(u1.get..., ...);
+			return userDAO.update(k.getUid(), u.getFname(), u.getLname(), u.getEmail(), u.getPhonenum(), u.getAddress(), u.getCity(), u.getState(), u.getZip());
+			//return userDAO.save(u);
 		} else {
 			throw new InvalidException(
 					String.format("UPDATE: Invalid User (%d!%d) modification.", u.getUid(), k.getUid()));
