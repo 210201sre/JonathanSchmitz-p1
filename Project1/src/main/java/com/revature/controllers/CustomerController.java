@@ -69,8 +69,8 @@ public class CustomerController {
 	}
 	
 	@PatchMapping
-	public ResponseEntity<Integer> modUser(@RequestBody User u) {
-//	public ResponseEntity<User> modUser(@RequestBody User u) {
+//	public ResponseEntity<Integer> modUser(@RequestBody User u) {
+	public ResponseEntity<User> modUser(@RequestBody User u) {
 		
 		return ResponseEntity.accepted().body(custSvc.modUser(u, usrSvc.logdin()));
 	}

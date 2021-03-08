@@ -135,13 +135,38 @@ public class CustomerService {
 		// deleted in between validation and info gathering
 	}
 
-	public int modUser(User u, Key k) {
-	//public User modUser(User u, Key k) {
+//	public int modUser(User u, Key k) {
+	public User modUser(User u, Key k) {
 		MDC.put("Action", "Modify User");
 		if (u.getUid() == k.getUid()) {
 			//TODO
-			// User u2 = findById();
-			// for every User u field
+			 User u2 = userDAO.findById(u.getUid()).get();
+			 System.out.println(u);
+			 if (u.getFname() != u2.getFname() && u.getFname() != "") {
+				 u2.setFname(u.getFname());
+			 }
+			 if (u.getLname() != u2.getLname() && u.getLname() != "") {
+				 u2.setLname(u.getLname());
+			 }
+			 if (u.getEmail() != u2.getEmail() && u.getEmail() != null) {
+				 u2.setEmail(u.getEmail());
+			 }
+			 if (u.getPhonenum() != u2.getPhonenum() && u.getPhonenum() != "") {
+				 u2.setPhonenum(u.getPhonenum());
+			 }
+			 if (u.getAddress() != u2.getAddress() && u.getAddress() != "") {
+				 u2.setAddress(u.getAddress());
+			 }
+			 if (u.getCity() != u2.getCity() && u.getCity() != null) {
+				 u2.setCity(u.getCity());
+			 }
+			 if (u.getState() != u2.getState() && u.getState() != null) {
+				 u2.setState(u.getState());
+			 }
+			 if (u.getZip() != u2.getZip() && u.getZip() != null) {
+				 u2.setZip(u.getZip());
+			 }
+			 
 			//    if field != u2.field && field != null/ 0?
 			//        u2.field = u.field //using userDAO.save
 			//    else
@@ -149,8 +174,8 @@ public class CustomerService {
 			
 			// return userDAO.save(u2);
 			// return userDAO.update(u1.get..., ...);
-			return userDAO.update(k.getUid(), u.getFname(), u.getLname(), u.getEmail(), u.getPhonenum(), u.getAddress(), u.getCity(), u.getState(), u.getZip());
-			//return userDAO.save(u);
+//			return userDAO.update(k.getUid(), u.getFname(), u.getLname(), u.getEmail(), u.getPhonenum(), u.getAddress(), u.getCity(), u.getState(), u.getZip());
+			return userDAO.save(u2);
 		} else {
 			throw new InvalidException(
 					String.format("UPDATE: Invalid User (%d!%d) modification.", u.getUid(), k.getUid()));

@@ -4,7 +4,7 @@
 \~\~\~potentially remove buildCartItem method(s)<br />
 \~\~\~potentially change protoToXXXX method(s) based on ER changes
 
--complete TODO in CustomerService.modUser(...) { }
+-~~complete TODO in CustomerService.modUser(...) { }~~
 
 -add response messages<br />
 \~\~\~change boolean returns to Strings for messages<br />
