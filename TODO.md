@@ -6,6 +6,8 @@
 
 -~~complete TODO in CustomerService.modUser(...) { }~~
 
+\~\~\~implement TODO Services (Employee, Admin?)
+
 -add response messages<br />
 \~\~\~change boolean returns to Strings for messages<br />
 \~\~\~add error messages to message field outputted to postman during an error<br />
