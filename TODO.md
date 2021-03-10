@@ -8,7 +8,7 @@
 
 -add response messages<br />
 \~\~\~change boolean returns to Strings for messages<br />
-\~\~\~add error messages to message field outputted to postman during an error
+\~\~\~add error messages to message field outputted to postman during an error<br />
 \~\~\~handle exceptions, return 400 series instead of 500 series
 
 -double check p-one-deployment.yml for fields that may effect External IP assignment
