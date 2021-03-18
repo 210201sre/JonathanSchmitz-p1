@@ -9,17 +9,12 @@ A migration to kubernetes of Project Zero; a full-scale, backend, sales and inve
 *
 
 ## Features
-### Currently Available
-#### Customers
-* Create and update an account.
-* Add items to a cart and checkout.
+### Currently Available:
+* Access control between Customers, Employees, and Admins.
+* User account creation, modification, and deletion.
+* Put items into a cart and perform checkout.
 * View transaction and backorder history.
-
-#### Employees
-* xxx
-
-#### Admins
-* xxx
+* Manage and restock products for sale and their manufacturer information.
 
 ### ToDo list:
 *
