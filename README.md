@@ -17,16 +17,19 @@ A migration to kubernetes of Project Zero; a full-scale, backend, sales and inve
 * Manage and restock products for sale and their manufacturer information.
 
 ### ToDo list:
-*
+* Implement entity relationship between models.
+* Implement remaining employee services.
+* Optionally add advice and/or custom annotations.
+* Optionally create tables & models for recording sales (profits and costs).
 
 ## Getting Started
-
+(the setup of the system)
 >
 
 -
 
 ## Usage
-
+(running/using the system)
 >
 
 ## License
