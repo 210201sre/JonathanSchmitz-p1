@@ -14,8 +14,10 @@ Customers
 * Create and update an account.
 * Add items to a cart and checkout.
 * View transaction and backorder history.
+
 Employees
 *
+
 Admins
 *
 
