@@ -60,4 +60,3 @@ A migration to kubernetes of Project Zero; a full-scale, backend, sales and inve
 Note: All POST, PATCH, and most DELETE requests require Body data to be in raw JSON format.
 - Use classes in the models folder to structure data sent in requests.
   - For models with similar names, only the ...Proto.java, prototype, classes are use when reading input from requests.
-  - 
