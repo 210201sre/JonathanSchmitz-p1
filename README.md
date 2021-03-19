@@ -56,7 +56,7 @@ A migration to kubernetes of Project Zero; a full-scale, backend, sales and inve
 
 ## Usage
 * Using Postman you can create requests to localhost:8080 with the routes provided in the controller classes.
-  * Ex: A GET request to localhost:8080/inv will output all the items currently in the database's item table.
+  * Ex: A GET request to localhost/js-inv-sales/inv will output all the items currently in the database's item table.
 Note: All POST, PATCH, and most DELETE requests require Body data to be in raw JSON format.
 * Use classes in the models folder to structure data sent in requests.
   * For models with similar names, only the ...Proto.java, prototype, classes are use when reading input from requests.
