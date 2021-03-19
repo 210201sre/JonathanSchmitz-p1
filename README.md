@@ -37,6 +37,7 @@ A migration to kubernetes of Project Zero; a full-scale, backend, sales and inve
 - [Postman](https://dl.pstmn.io/download/latest/win64)
 - [GitBash](https://github.com/git-for-windows/git/releases/download/v2.31.0.windows.1/Git-2.31.0-64-bit.exe)
 
+
 - Git clone this repository for the sql and yml files.
 - Install locally or set up a Postgresql database through AWS.
   - Use files in SQL folder create the data and populate tables with sample data.
