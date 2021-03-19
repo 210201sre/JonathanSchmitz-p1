@@ -9,6 +9,7 @@ A migration to kubernetes of Project Zero; a full-scale, backend, sales and inve
 * PostgreSQL - version 12.5
 * Java JDK - version 1.8
 * Spring-Boot - version 2.4.3
+* Docker - version 20.10.5
 * Kubernetes (EKS) - version 1.18.9
 * FluentD - version 0.3.4
 * Grafana - version 7.4.2
