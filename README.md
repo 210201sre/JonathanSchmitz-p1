@@ -2,11 +2,18 @@
 
 ## Description
 
-A migration to kubernetes of Project Zero; a full-scale, backend, sales and inventory management system implemented in java.
+A migration to kubernetes of Project Zero; a full-scale, backend, sales and inventory management system implemented in java using a PostgreSQL database.
 
 ## Technologies
 
-*
+* PostgreSQL - version 12.5
+* Java JDK - version 1.8
+* Spring-Boot - version 2.4.3
+* Kubernetes (EKS) - version 1.18.9
+* FluentD - version 0.3.4
+* Grafana - version 7.4.2
+* nginx - version 0.44.0
+* Loki - version 2.1.0
 
 ## Features
 ### Currently Available:
