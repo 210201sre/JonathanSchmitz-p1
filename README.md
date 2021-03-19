@@ -41,7 +41,7 @@ A migration to kubernetes of Project Zero; a full-scale, backend, sales and inve
 * Install locally or set up a Postgresql database through AWS.
   * Use files in SQL folder create the data and populate tables with sample data.
 * Install / set up helm.
-  * Add ingress-nginx, https://kubernetes.github.io/ingress-nginx and grafana, https://grafana.github.io/helm-charts to helm repo.
+  * Add ingress-nginx, https\://kubernetes\.github\.io/ingress-nginx and grafana, https\://grafana\.github\.io/helm-charts to helm repo.
   * Run helm install ingress-nginx ingress-nginx/ingress/ngninx;
   * Run helm install grafana grafana/grafana -f grafanavalues.yml;
   * Run helm install loki grafana/loki -f lokivalues.yml;
