@@ -51,7 +51,7 @@ public class ChkUsrSvc {
 		User u = userDAO.findById(k.getUid()).orElseThrow(
 				() -> new UserNotFoundException(String.format("SELECT: User %d does not exist.", k.getUid())));
 		if (level.equals("Customer")) {
-			if(!u.getAccesslevel().equals(level)&&!u.getAccesslevel().equals("employee")&&!u.getAccesslevel().equals("Admin")) {
+			if(!u.getAccesslevel().equals(level)&&!u.getAccesslevel().equals("Employee")&&!u.getAccesslevel().equals("Admin")) {
 				throw new InvalidException(permErrMsg);
 			}
 		} else if (level.equals("Employee")) {
