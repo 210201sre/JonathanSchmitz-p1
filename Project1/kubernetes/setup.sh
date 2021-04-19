@@ -2,6 +2,7 @@ helm repo list;
 helm install ingress-nginx ingress-nginx/ingress/nginx;
 cd grafana-chart;
 helm install grafana grafana/grafana -f values.yml;
+# kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 cd ../loki-chart;
 helm install loki grafana/loki -f values.yml;
 cd ..;
