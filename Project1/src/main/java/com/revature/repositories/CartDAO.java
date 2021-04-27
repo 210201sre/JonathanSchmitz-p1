@@ -5,20 +5,20 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.revature.models.CartItemProto;
+import com.revature.models.Cart;
 
-public interface CartDAO extends JpaRepository<CartItemProto, Long>  {
+public interface CartDAO extends JpaRepository<Cart, Long>  {
 
 	
 	//@Query(value = "SELECT * FROM projectzero.cart WHERE uid = :uid")
-	public List<CartItemProto> findAllByUid(long uid);
+	public List<Cart> findAllByUid(long uid);
 	
 	//@Modifying
 	//@Query(value = "DELETE FROM projectzero.cart WHERE uid = :uid")
 	public void deleteByUid(long uid);
 	
 	// TODO this method may not return properly
-	public Optional<CartItemProto> findByUidAndIid(long uid, long iid);
+	public Optional<Cart> findByUidAndIid(long uid, long iid);
 	
 	//@Query(value = "SELECT COUNT(iid) FROM projectzero.cart WHERE uid = :uid")
 	public long countByUid(/*@Param("cid")*/ long uid);
@@ -27,6 +27,6 @@ public interface CartDAO extends JpaRepository<CartItemProto, Long>  {
 	public boolean existsByIid(long iid);
 	
 	//@Query(value = "SELECT * FROM projectzero.cart WHERE cid = :cid")
-	public List<CartItemProto> findAllByCid(long cid);
+	public List<Cart> findAllByCid(long cid);
 	
 }

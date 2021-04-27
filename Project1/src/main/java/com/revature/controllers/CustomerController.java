@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.models.BackorderProto;
-import com.revature.models.CartItem;
-import com.revature.models.CartItemProto;
+import com.revature.models.Backorder;
+import com.revature.models.DEPRECIATEDCartItem;
+import com.revature.models.Cart;
 import com.revature.models.Credentials;
 import com.revature.models.Transaction;
 import com.revature.models.User;
@@ -88,19 +88,19 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/cart")
-	public ResponseEntity<CartItem> addToCart(@RequestBody CartItemProto cip) {
+	public ResponseEntity<DEPRECIATEDCartItem> addToCart(@RequestBody Cart cip) {
 		
 		return ResponseEntity.accepted().body(custSvc.addToMyCart(cip, usrSvc.logdin()));
 	}
 	
 	@PatchMapping("/cart")
-	public ResponseEntity<CartItem> modCartItem(@RequestBody CartItemProto cip) {
+	public ResponseEntity<DEPRECIATEDCartItem> modCartItem(@RequestBody Cart cip) {
 		
 		return ResponseEntity.accepted().body(custSvc.modMyCart(cip, usrSvc.logdin()));
 	}
 	
 	@DeleteMapping("/cart")
-	public ResponseEntity<Boolean> removeCartItem(@RequestBody CartItemProto cip) {
+	public ResponseEntity<Boolean> removeCartItem(@RequestBody Cart cip) {
 		
 		return ResponseEntity.accepted().body(custSvc.delMyCartItem(cip, usrSvc.logdin()));
 	}
@@ -112,7 +112,7 @@ public class CustomerController {
 	}
 	
 	@GetMapping("/cart")
-	public ResponseEntity<List<CartItem>> showCart() {
+	public ResponseEntity<List<DEPRECIATEDCartItem>> showCart() {
 		
 		return ResponseEntity.ok(custSvc.displayCart(usrSvc.logdin()));
 	}
@@ -130,13 +130,13 @@ public class CustomerController {
 	}
 	
 	@GetMapping("/transaction/contents")
-	public ResponseEntity<List<CartItem>> showTransactionItems(@RequestBody Transaction t) {
+	public ResponseEntity<List<DEPRECIATEDCartItem>> showTransactionItems(@RequestBody Transaction t) {
 		
 		return ResponseEntity.ok(custSvc.displayTransactionItems(t, usrSvc.logdin()));
 	}
 	
 	@GetMapping("/backorder")
-	public ResponseEntity<List<BackorderProto>> showBackorders() {
+	public ResponseEntity<List<Backorder>> showBackorders() {
 		
 		return ResponseEntity.ok(custSvc.displayBackorders(usrSvc.logdin()));
 	}

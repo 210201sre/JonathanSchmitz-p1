@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.models.CartItem;
+import com.revature.models.DEPRECIATEDCartItem;
 import com.revature.models.Transaction;
-import com.revature.models.TuiProto;
+import com.revature.models.TUI;
 import com.revature.models.User;
 import com.revature.services.AdminService;
 import com.revature.services.ChkUsrSvc;
@@ -42,13 +42,13 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/user/transaction/item")
-	public ResponseEntity<List<CartItem>> showUserTransactionItems(@RequestBody Transaction t) {
+	public ResponseEntity<List<DEPRECIATEDCartItem>> showUserTransactionItems(@RequestBody Transaction t) {
 		
 		return ResponseEntity.ok(aSvc.displayUserTransactionItems(usrSvc.validateEmployee(usrSvc.logdin()), t));
 	}
 	
 	@PatchMapping("/user/transaction/item")
-	public ResponseEntity<CartItem> modifyUserTransactionItem(@RequestBody TuiProto tp) {
+	public ResponseEntity<DEPRECIATEDCartItem> modifyUserTransactionItem(@RequestBody TUI tp) {
 		
 		return ResponseEntity.accepted().body(aSvc.modUserTransactionItem(usrSvc.validateEmployee(usrSvc.logdin()), tp));
 	}

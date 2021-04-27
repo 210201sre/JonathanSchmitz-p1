@@ -1,10 +1,13 @@
 package com.revature.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -28,6 +31,12 @@ public class Transaction {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(insertable = false, updatable = false)
 	private String stamp;	
+	
+	//========================== HIBERNATE ADDITION ========================================
+	@OneToMany()
+	private List<TUI> transactionItems;
+	//=======================================================================================
+	
 
 	public String toString(boolean b) {
 		String nul = "Transaction [tid=0, uid=0, totalcost=0.0, stamp=null]";

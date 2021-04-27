@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
 
 import com.revature.exceptions.InvalidException;
 import com.revature.exceptions.UserNotFoundException;
-import com.revature.models.BackorderProto;
-import com.revature.models.CartItem;
-import com.revature.models.CartItemProto;
+import com.revature.models.Backorder;
+import com.revature.models.DEPRECIATEDCartItem;
+import com.revature.models.Cart;
 import com.revature.models.Item;
 import com.revature.models.Key;
 import com.revature.models.Transaction;
-import com.revature.models.TuiProto;
+import com.revature.models.TUI;
 import com.revature.models.User;
 import com.revature.repositories.BackorderDAO;
 import com.revature.repositories.CartDAO;
@@ -208,7 +208,7 @@ public class CustomerService {
 	}
 
 	// CART SERVICE METHODS
-	public CartItem addToMyCart(CartItemProto cip, Key k) {
+	public DEPRECIATEDCartItem addToMyCart(Cart cip, Key k) {
 		MDC.put("Action", "Add to Cart");
 		cip.setUid(k.getUid());
 		if (cip.getUid() < 1 || cip.getCid() < 0 || k.getSid() == null) {
@@ -216,12 +216,12 @@ public class CustomerService {
 					cip.getUid(), cip.getCid(), k.getSid()));
 		} else {
 			if (cip.getUid() == k.getUid()) {
-				if (iDAO.existsById(cip.getIid())) {
+				if (iDAO.existsById(cip.getI().getIid())) {
 					return buildCartItem(cDAO.save(cip));
 				} else {
 //					log.error("SELECT: Item {} does not exist.", cip.getIid());
 //					return new CartItem();
-					throw new InvalidException(String.format("SELECT: Item %d does not exist.", cip.getIid()));
+					throw new InvalidException(String.format("SELECT: Item %d does not exist.", cip.getI().getIid()));
 				}
 			} else {
 //				log.error("INSERT: User {} mismatch {}", cip.getUid(), k.getUid());
@@ -231,19 +231,19 @@ public class CustomerService {
 		}
 	}
 
-	public CartItem modMyCart(CartItemProto cip, Key k) {
+	public DEPRECIATEDCartItem modMyCart(Cart cip, Key k) {
 		MDC.put("Action", "Modify Cart Item");
 		if (cip.getUid() < 1 || (!coupDAO.existsById(cip.getCid()) && cip.getCid()!= 0 ) || k.getSid() == null) {
 			throw new InvalidException(String.format("UPDATE: Invalid ID(s) (%d:%d:%d) passed during cart update.",
 					cip.getUid(), cip.getCid(), k.getSid()));
 		} else {
 			if (cip.getUid() == k.getUid()) {
-				if (cDAO.findByUidAndIid(cip.getUid(), cip.getIid()).isPresent()) {
+				if (cDAO.findByUidAndIid(cip.getUid(), cip.getI().getIid()).isPresent()) {
 					return buildCartItem(cDAO.save(cip));
 				} else {
 //					log.error("SELECT: Item {} does not exist.", cip.getIid());
 //					return new CartItem();
-					throw new InvalidException(String.format("SELECT: Item %d does not exist in cart.", cip.getIid()));
+					throw new InvalidException(String.format("SELECT: Item %d does not exist in cart.", cip.getI().getIid()));
 				}
 			} else {
 //				log.error("UPDATE: User {} mismatch {}", cip.getUid(), k.getUid());
@@ -253,7 +253,7 @@ public class CustomerService {
 		}
 	}
 
-	public boolean delMyCartItem(CartItemProto cip, Key k) {
+	public boolean delMyCartItem(Cart cip, Key k) {
 		MDC.put("Action", "Delete Cart Item");
 		if (cip.getUid() == k.getUid()) {
 			cDAO.delete(cip);
@@ -267,8 +267,8 @@ public class CustomerService {
 		MDC.put("Action", "Empty Cart");
 		if (cDAO.countByUid(k.getUid()) > 0) {
 			//log.info("count was {}",cDAO.countByUid(k.getUid()));
-			List<CartItemProto> cps = cDAO.findAllByUid(k.getUid());
-			for (CartItemProto p : cps) {
+			List<Cart> cps = cDAO.findAllByUid(k.getUid());
+			for (Cart p : cps) {
 				cDAO.delete(p);
 			}
 			//cDAO.deleteByUid(k.getUid());
@@ -278,12 +278,12 @@ public class CustomerService {
 		}
 	}
 
-	public List<CartItem> displayCart(Key k) {
+	public List<DEPRECIATEDCartItem> displayCart(Key k) {
 		MDC.put("Action", "Display Cart");
-		List<CartItemProto> cips = cDAO.findAllByUid(k.getUid());
-		List<CartItem> cis = new ArrayList<>();
-		for (CartItemProto cip : cips) {
-			CartItem ci = buildCartItem(cip);
+		List<Cart> cips = cDAO.findAllByUid(k.getUid());
+		List<DEPRECIATEDCartItem> cis = new ArrayList<>();
+		for (Cart cip : cips) {
+			DEPRECIATEDCartItem ci = buildCartItem(cip);
 			if (ci.toString(false) != null || ci.getI().toString(false) != null) {
 				cis.add(ci);
 			}
@@ -293,48 +293,49 @@ public class CustomerService {
 
 	public boolean checkout(Key k) {
 		MDC.put("TopAction", "Checkout");
-		// the below line may not work properly
-		//if (cDAO.countByUid(k.getUid()) > 0) {
-		if(cDAO.findAllByUid(k.getUid()).size() > 0) {
-			List<CartItem> cis = displayCart(k);
-			Transaction t = new Transaction();
-			t.setUid(k.getUid());
-			t.setTotalcost(0.01);
-			//t = tDAO.save(t.getUid(), t.getTotalcost());
-			t = tDAO.save(t);
-			log.info("Transaction id {}", t);
-			if (t.getTid() > 0) {
-				for (CartItem ci : cis) {
-					if (ci.getI().getQuantity() < ci.getCartQuantity()) {
-						boDAO.save(new BackorderProto(k.getUid(), ci.getI().getIid(), ci.getCartQuantity(), ci.getCid()));
-						log.info("Item {}:{} was put on backorder due to limited stock on hand.", ci.getI().getIid(),
-								ci.getI().getUnitname());
-					} else {
-						if (setNewQuantities(ci.getI(), ci.getCartQuantity())) {
-							tuiDAO.save(new TuiProto(t.getTid(), ci.getI().getIid(), ci.getCartQuantity(), ci.getCid()));
-						} else {
-							boDAO.save(new BackorderProto(k.getUid(), ci.getI().getIid(), ci.getCartQuantity(), ci.getCid()));
-							log.error("Item {}'s quantities could not be updated, item put on user {}'s backorder.",
-									ci.getI().getIid(), k.getUid());
-						}
-					}
-				}
-				if(!tuiDAO.findAllByTid(t.getTid()).isEmpty()) {
-					t.setTotalcost(calculateTotal(cis));
-					tDAO.save(t);
-				} else {
-					tDAO.delete(t);
-				}
-				emptyCart(k);
-				
-				return true;
-			} else {
-				throw new InvalidException(
-						String.format("CHECKOUT: Failed to get transaction ID for user %d.", k.getUid()));
-			}
-		} else {
-			throw new InvalidException(String.format("CHECKOUT: User %d cart is empty.", k.getUid()));
-		}
+//		// the below line may not work properly
+//		//if (cDAO.countByUid(k.getUid()) > 0) {
+//		if(cDAO.findAllByUid(k.getUid()).size() > 0) {
+//			List<DEPRECIATEDCartItem> cis = displayCart(k);
+//			Transaction t = new Transaction();
+//			t.setUid(k.getUid());
+//			t.setTotalcost(0.01);
+//			//t = tDAO.save(t.getUid(), t.getTotalcost());
+//			t = tDAO.save(t);
+//			log.info("Transaction id {}", t);
+//			if (t.getTid() > 0) {
+//				for (DEPRECIATEDCartItem ci : cis) {
+//					if (ci.getI().getQuantity() < ci.getCartQuantity()) {
+//						boDAO.save(new Backorder(k.getUid(), ci.getI().getIid(), ci.getCartQuantity(), ci.getCid()));
+//						log.info("Item {}:{} was put on backorder due to limited stock on hand.", ci.getI().getIid(),
+//								ci.getI().getUnitname());
+//					} else {
+//						if (setNewQuantities(ci.getI(), ci.getCartQuantity())) {
+//							tuiDAO.save(new TUI(t.getTid(), ci.getI().getIid(), ci.getCartQuantity(), ci.getCid()));
+//						} else {
+//							boDAO.save(new Backorder(k.getUid(), ci.getI().getIid(), ci.getCartQuantity(), ci.getCid()));
+//							log.error("Item {}'s quantities could not be updated, item put on user {}'s backorder.",
+//									ci.getI().getIid(), k.getUid());
+//						}
+//					}
+//				}
+//				if(!tuiDAO.findAllByTid(t.getTid()).isEmpty()) {
+//					t.setTotalcost(calculateTotal(cis));
+//					tDAO.save(t);
+//				} else {
+//					tDAO.delete(t);
+//				}
+//				emptyCart(k);
+//				
+//				return true;
+//			} else {
+//				throw new InvalidException(
+//						String.format("CHECKOUT: Failed to get transaction ID for user %d.", k.getUid()));
+//			}
+//		} else {
+//			throw new InvalidException(String.format("CHECKOUT: User %d cart is empty.", k.getUid()));
+//		}
+		return true;
 	}
 
 	// TRANSACTION SERVICE METHODS
@@ -343,15 +344,15 @@ public class CustomerService {
 		return tDAO.findAllByUid(k.getUid());
 	}
 
-	public List<CartItem> displayTransactionItems(Transaction t, Key k) {
+	public List<DEPRECIATEDCartItem> displayTransactionItems(Transaction t, Key k) {
 		MDC.put("Action", "Display Transaction Items");
 		if (t.getTid() > 0 && k.getUid() == t.getUid()) {
 			throw new InvalidException(String.format("SELECT: User %d does not match requested Transaction %d", k.getUid(),t.getUid()));
 		}
-		List<TuiProto> cips = tuiDAO.findAllByTid(t.getTid());
-		List<CartItem> cis = new ArrayList<>();
-		for (TuiProto tp : cips) {
-			CartItem ci = buildTui(tp);
+		List<TUI> cips = tuiDAO.findAllByTid(t.getTid());
+		List<DEPRECIATEDCartItem> cis = new ArrayList<>();
+		for (TUI tp : cips) {
+			DEPRECIATEDCartItem ci = buildTui(tp);
 			if (ci.toString(false) != null || ci.getI().toString(false) != null) {
 				cis.add(ci);
 			}
@@ -359,48 +360,48 @@ public class CustomerService {
 		return cis;
 	}
 
-	public List<BackorderProto> displayBackorders(Key k) {
+	public List<Backorder> displayBackorders(Key k) {
 		MDC.put("Action", "Display Backorders");
 		return boDAO.findAllByUid(k.getUid());
 	}
 	// STAND ALONE METHODS
-	protected CartItem buildCartItem(CartItemProto cip) {
-		CartItem ci = new CartItem();
+	protected DEPRECIATEDCartItem buildCartItem(Cart cip) {
+		DEPRECIATEDCartItem ci = new DEPRECIATEDCartItem();
 		ci.setCid(cip.getCid());
 		ci.setUtid(cip.getUid());
 		ci.setCartQuantity(cip.getQuantity());
-		Optional<Item> i = iDAO.findById(cip.getIid());
+		Optional<Item> i = iDAO.findById(cip.getI().getIid());
 		if (i.isPresent()) {
 			ci.setI(i.get());
 		} else {
 //			log.error("SELECT: Item {} does not exist.", cip.getIid());
 //			return new CartItem();
-			throw new InvalidException(String.format("SELECT: Item %d does not exist.", cip.getIid()));
+			throw new InvalidException(String.format("SELECT: Item %d does not exist.", cip.getI().getIid()));
 		}
 		return ci;
 	}
 	
-	private CartItem buildTui(TuiProto tp) {//converts to CartItem and adds item as object
-		CartItem ci = new CartItem();
+	private DEPRECIATEDCartItem buildTui(TUI tp) {//converts to CartItem and adds item as object
+		DEPRECIATEDCartItem ci = new DEPRECIATEDCartItem();
 		ci.setCartQuantity(tp.getCid());
 		ci.setUtid(tp.getTid());
 		ci.setCartQuantity(tp.getQuantity());
-		Optional<Item> i = iDAO.findById(tp.getIid());
+		Optional<Item> i = iDAO.findById(tp.getI().getIid());
 		if (i.isPresent()) {
 			ci.setI(i.get());
 		} else {
 //			log.error("SELECT: Item {} does not exist.", cip.getIid());
 //			return new CartItem();
-			throw new InvalidException(String.format("SELECT: Item %d does not exist.", tp.getIid()));
+			throw new InvalidException(String.format("SELECT: Item %d does not exist.", tp.getI().getIid()));
 		}
 		return ci;
 	}
 
-	private double calculateTotal(List<CartItem> cis) {
+	private double calculateTotal(List<DEPRECIATEDCartItem> cis) {
 		double total = 0.0;
 		double coupon = 00.00;
 		double tax = 00.00;
-		for (CartItem cs : cis) {
+		for (DEPRECIATEDCartItem cs : cis) {
 			total += cs.getI().getSellingprice() * cs.getCartQuantity() * (coupon / 100 + 1) * (tax / 100 + 1);
 		}
 		return total;

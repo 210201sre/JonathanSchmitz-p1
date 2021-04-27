@@ -3,26 +3,28 @@ package com.revature.models;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class BoId implements Serializable {
+import javax.persistence.Column;
 
+public class CartId implements Serializable {
+	
 	private long uid;
 	//private long iid;
-	private long backOrderItem;
+	private long i;
 	
-	public BoId() {
+	public CartId() {
 		super();
 	}
 	
-	public BoId(long uid, long iid) {
+	public CartId(long uid, long iid) {
 		super();
 		this.uid = uid;
 		//this.iid = iid;
-		this.backOrderItem=iid;
+		this.i = iid;
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(backOrderItem, uid);
+		return Objects.hash(i, uid);
 	}
 	
 	@Override
@@ -30,12 +32,13 @@ public class BoId implements Serializable {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof BoId)) {
+		if (!(obj instanceof CartId)) {
 			return false;
 		}
-		BoId other = (BoId) obj;
-		return backOrderItem == other.backOrderItem && uid == other.uid;
+		CartId other = (CartId) obj;
+		return i == other.i && uid == other.uid;
 	}
 	
 	
+
 }

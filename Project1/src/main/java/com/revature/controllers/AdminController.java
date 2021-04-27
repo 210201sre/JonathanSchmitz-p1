@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.models.Coupon;
 import com.revature.models.Transaction;
-import com.revature.models.TuiProto;
+import com.revature.models.TUI;
 import com.revature.models.User;
 import com.revature.services.AdminService;
 import com.revature.services.ChkUsrSvc;
@@ -71,7 +71,7 @@ public class AdminController {
 	}
 	
 	@DeleteMapping("/user/transaction/item")
-	public ResponseEntity<Boolean> removeUserTransactionItem(@RequestBody TuiProto tp) {
+	public ResponseEntity<Boolean> removeUserTransactionItem(@RequestBody TUI tp) {
 		
 		return ResponseEntity.accepted().body(aSvc.delUserTransactionItem(usrSvc.validateAdmin(usrSvc.logdin()), tp));
 	}

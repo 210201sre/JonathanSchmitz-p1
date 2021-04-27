@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 
 @Data @NoArgsConstructor @AllArgsConstructor
-public class CartItem {
+public class DEPRECIATEDCartItem {
 
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long utid;

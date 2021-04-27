@@ -5,7 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,5 +28,11 @@ public class Coupon {
 	private String description;
 	private double discount;//flat discount amount
 	private int percentage;//percent discount amount out of 100
+
+	//========================== HIBERNATE ADDITION ========================================
+	@ManyToOne()
+	@JsonBackReference
+	private Item i;
+	//=======================================================================================
 
 }

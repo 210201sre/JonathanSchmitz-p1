@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.exceptions.UserNotFoundException;
-import com.revature.models.CartItem;
-import com.revature.models.CartItemProto;
+import com.revature.models.DEPRECIATEDCartItem;
+import com.revature.models.Cart;
 import com.revature.models.Key;
 import com.revature.models.Transaction;
-import com.revature.models.TuiProto;
+import com.revature.models.TUI;
 import com.revature.models.User;
 import com.revature.repositories.UserDAO;
 
@@ -53,7 +53,7 @@ public class EmployeeService /*extends CustomerService*/ {
 	}
 
 	// TODO
-	public CartItemProto modCustomerTransationItem(Key k, User u, TuiProto tp) {
+	public Cart modCustomerTransationItem(Key k, User u, TUI tp) {
 		// take tid, quantity, iid from cip
 		
 		// u.getAccessLevel == "Customer" && k.getUid() != u.getUid()
@@ -65,7 +65,7 @@ public class EmployeeService /*extends CustomerService*/ {
 	}
 
 	// TODO
-	public void delCustomerTransactionItem(Key k, User u, TuiProto tp) {
+	public void delCustomerTransactionItem(Key k, User u, TUI tp) {
 		// verify u.getUid == tDAO.findById(cip.getTid()).orElseThrow(...).getUid()
 		// verify cip exists in Transaction where matching tid AND cip else thow exception
 		
@@ -80,7 +80,7 @@ public class EmployeeService /*extends CustomerService*/ {
 	}
 
 	// TODO
-	public List<CartItem> dispalyCustomerTransactionItems(Key k, Transaction t) {
+	public List<DEPRECIATEDCartItem> dispalyCustomerTransactionItems(Key k, Transaction t) {
 		// duplicate customerService.displayTransactionItems
 		// to be used in conjunction with displayCustomerTransactions on front end
 

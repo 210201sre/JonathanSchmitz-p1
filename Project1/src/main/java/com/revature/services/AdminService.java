@@ -11,13 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.exceptions.InvalidException;
-import com.revature.models.BackorderProto;
-import com.revature.models.CartItem;
+import com.revature.models.Backorder;
+import com.revature.models.DEPRECIATEDCartItem;
 import com.revature.models.Coupon;
 import com.revature.models.Item;
 import com.revature.models.Key;
 import com.revature.models.Transaction;
-import com.revature.models.TuiProto;
+import com.revature.models.TUI;
 import com.revature.models.User;
 import com.revature.repositories.BackorderDAO;
 import com.revature.repositories.CartDAO;
@@ -135,15 +135,15 @@ public class AdminService /*extends EmployeeService*/ {
 		return tDAO.findAllByUid(u.getUid());
 	}
 	
-	public List<CartItem> displayUserTransactionItems(Key k, Transaction t){
+	public List<DEPRECIATEDCartItem> displayUserTransactionItems(Key k, Transaction t){
 		MDC.put("Action", "Adm Display Transaction Items");
 		if (!tDAO.existsById(t.getTid())) {
 			throw new InvalidException(String.format("SELECT: Transaction %d does not exist.",t.getTid()));
 		}
-		List<TuiProto> cips = tuiDAO.findAllByTid(t.getTid());
-		List<CartItem> cis = new ArrayList<>();
-		for (TuiProto tp : cips) {
-			CartItem ci = buildTui(tp);
+		List<TUI> cips = tuiDAO.findAllByTid(t.getTid());
+		List<DEPRECIATEDCartItem> cis = new ArrayList<>();
+		for (TUI tp : cips) {
+			DEPRECIATEDCartItem ci = buildTui(tp);
 			if (ci.toString(false) != null || ci.getI().toString(false) != null) {
 				cis.add(ci);
 			}
@@ -151,49 +151,50 @@ public class AdminService /*extends EmployeeService*/ {
 		return cis;
 	}
 	
-	public CartItem modUserTransactionItem(Key k, TuiProto tp) {
+	public DEPRECIATEDCartItem modUserTransactionItem(Key k, TUI tp) {
 		MDC.put("Action", "Adm Modify Transaction Item");
-		if (!tDAO.existsById(tp.getTid())||(tp.getCid()!=0 && !coupDAO.existsById(tp.getCid()))) {
-			throw new InvalidException(String.format("UPDATE: Transaction %d or Coupon %d does not exist.", tp.getTid(), tp.getCid()));
-		}
-		if(tp.getQuantity() < 1) {
-			throw new InvalidException("UPDATE: Transaction item quantity must be greater than 0.");
-		}
-		//transaction already confirmed above
-		Transaction t = tDAO.findById(tp.getTid()).get();
-		List<CartItem> cis = displayUserTransactionItems(k, t);
-		CartItem ci=null;
-		for (CartItem i: cis) {
-			if ( i.getI().getIid()==tp.getIid()&&i.getUtid()==tp.getTid()) {
-				ci = i;
-			}
-		}
-		if(ci == null) {throw new InvalidException("SELECT: Unable to find matching item in user's transaction item list.");}
-		
-		if(ci.getI().getQuantity() < tp.getQuantity()) {
-				boDAO.save(new BackorderProto(t.getUid(), tp.getIid(), tp.getQuantity(), tp.getCid()));
-				log.info("Item {}:{} was put on backorder due to limited stock on hand.", ci.getI().getIid(),
-						ci.getI().getUnitname());
-			} else {
-				if (setNewQuantities(ci.getI(), tp.getQuantity()-ci.getCartQuantity()/*newQuantity - oldQuantity*/)) {
-					tuiDAO.deleteByTidAndIid(tp.getTid(),tp.getIid());
-					//tuiDAO.delete(new TuiProto(ci.getUtid(),ci.getCartQuantity(),ci.getCid(),ci.getI().getIid()));
-					tuiDAO.save(tp);
-				} else {
-					boDAO.save(new BackorderProto(t.getUid(), tp.getIid(), tp.getQuantity(), tp.getCid()));
-					log.error("Item {}'s quantities could not be updated, item put on user {}'s backorder.",
-							tp.getIid(), t.getUid());
-				}
-			}
-
-			cis = displayUserTransactionItems(k, t);
-			t.setTotalcost(calculateTotal(cis));
-			t = tDAO.save(t);
-		// call third party function to reimburse/bill user for changes
-		return buildTui(tp);
+//		if (!tDAO.existsById(tp.getTid())||(tp.getCid()!=0 && !coupDAO.existsById(tp.getCid()))) {
+//			throw new InvalidException(String.format("UPDATE: Transaction %d or Coupon %d does not exist.", tp.getTid(), tp.getCid()));
+//		}
+//		if(tp.getQuantity() < 1) {
+//			throw new InvalidException("UPDATE: Transaction item quantity must be greater than 0.");
+//		}
+//		//transaction already confirmed above
+//		Transaction t = tDAO.findById(tp.getTid()).get();
+//		List<DEPRECIATEDCartItem> cis = displayUserTransactionItems(k, t);
+//		DEPRECIATEDCartItem ci=null;
+//		for (DEPRECIATEDCartItem i: cis) {
+//			if ( i.getI().getIid()==tp.getIid()&&i.getUtid()==tp.getTid()) {
+//				ci = i;
+//			}
+//		}
+//		if(ci == null) {throw new InvalidException("SELECT: Unable to find matching item in user's transaction item list.");}
+//		
+//		if(ci.getI().getQuantity() < tp.getQuantity()) {
+//				boDAO.save(new Backorder(t.getUid(), tp.getIid(), tp.getQuantity(), tp.getCid()));
+//				log.info("Item {}:{} was put on backorder due to limited stock on hand.", ci.getI().getIid(),
+//						ci.getI().getUnitname());
+//			} else {
+//				if (setNewQuantities(ci.getI(), tp.getQuantity()-ci.getCartQuantity()/*newQuantity - oldQuantity*/)) {
+//					tuiDAO.deleteByTidAndIid(tp.getTid(),tp.getIid());
+//					//tuiDAO.delete(new TuiProto(ci.getUtid(),ci.getCartQuantity(),ci.getCid(),ci.getI().getIid()));
+//					tuiDAO.save(tp);
+//				} else {
+//					boDAO.save(new Backorder(t.getUid(), tp.getIid(), tp.getQuantity(), tp.getCid()));
+//					log.error("Item {}'s quantities could not be updated, item put on user {}'s backorder.",
+//							tp.getIid(), t.getUid());
+//				}
+//			}
+//
+//			cis = displayUserTransactionItems(k, t);
+//			t.setTotalcost(calculateTotal(cis));
+//			t = tDAO.save(t);
+//		// call third party function to reimburse/bill user for changes
+//		return buildTui(tp);
+		return new DEPRECIATEDCartItem();
 	}
 	
-	public boolean delUserTransactionItem(Key k, TuiProto tp) {
+	public boolean delUserTransactionItem(Key k, TUI tp) {
 		MDC.put("Action", "Adm Delete Transaction Item");
 		if(!tDAO.existsById(tp.getTid())) {
 			throw new InvalidException(String.format("DELETE: Transaction %d containing given item does not exist.",tp.getTid()));
@@ -237,27 +238,27 @@ public class AdminService /*extends EmployeeService*/ {
 		return true;
 	}
 
-	private CartItem buildTui(TuiProto tp) {//converts to CartItem and adds item as object
-		CartItem ci = new CartItem();
+	private DEPRECIATEDCartItem buildTui(TUI tp) {//converts to CartItem and adds item as object
+		DEPRECIATEDCartItem ci = new DEPRECIATEDCartItem();
 		ci.setCartQuantity(tp.getCid());
 		ci.setUtid(tp.getTid());
 		ci.setCartQuantity(tp.getQuantity());
-		Optional<Item> i = iDAO.findById(tp.getIid());
+		Optional<Item> i = iDAO.findById(tp.getI().getIid());
 		if (i.isPresent()) {
 			ci.setI(i.get());
 		} else {
 //			log.error("SELECT: Item {} does not exist.", cip.getIid());
 //			return new CartItem();
-			throw new InvalidException(String.format("SELECT: Item %d does not exist.", tp.getIid()));
+			throw new InvalidException(String.format("SELECT: Item %d does not exist.",tp.getI().getIid()));
 		}
 		return ci;
 	}
 
-	private double calculateTotal(List<CartItem> cis) {
+	private double calculateTotal(List<DEPRECIATEDCartItem> cis) {
 		double total = 0.0;
 		double coupon = 00.00;
 		double tax = 00.00;
-		for (CartItem cs : cis) {
+		for (DEPRECIATEDCartItem cs : cis) {
 			total += cs.getI().getSellingprice() * cs.getCartQuantity() * (coupon / 100 + 1) * (tax / 100 + 1);
 		}
 		return total;

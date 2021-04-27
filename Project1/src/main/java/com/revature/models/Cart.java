@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -14,22 +16,31 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "cart")
-@IdClass(CipId.class)
+@IdClass(CartId.class)
 @Data @NoArgsConstructor @AllArgsConstructor
-public class CartItemProto implements Serializable {
+public class Cart implements Serializable {
 
 	//uid equivalent to transaction id when requesting items for a transaction
 	@Id
+	@Column(name="uid")
 	private long uid;
-	@Id
-	private long iid;
+	//@Id
+	//@Column(name="iid")
+	//private long iid;
 	private long quantity; // also swap FindTuiByTid in CartDAO
 	@Column(name = "cid")
 	private long cid;
+
+	//========================== HIBERNATE ADDITION ========================================
+	@Id
+	@ManyToOne()
+	@JoinColumn(name="iid")
+	private Item i;
+	//=======================================================================================
 	
 	public String toString(boolean b) {
 		String nul = "CartItemProto [uid=0, quantity=0, cid=0, i=0]";
-		String str = "CartItemProto [uid=" + uid + ", quantity=" + quantity + ", cid=" + cid + ", i=" + iid + "]";
+		String str = "CartItemProto [uid=" + uid + ", quantity=" + quantity + ", cid=" + cid + ", i=" + i + "]";
 		if (str.equals(nul)) {
 			return null;
 		} else {

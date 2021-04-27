@@ -6,7 +6,8 @@ import java.util.Objects;
 public class TuiId implements Serializable {
 
 	private long tid;
-	private long iid;
+	//private long iid;
+	private long i;
 	
 	public TuiId() {
 		super();
@@ -15,12 +16,13 @@ public class TuiId implements Serializable {
 	public TuiId(long tid, long iid) {
 		super();
 		this.tid = tid;
-		this.iid = iid;
+		//this.iid = iid;
+		this.i=iid;
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(iid, tid);
+		return Objects.hash(i, tid);
 	}
 	
 	@Override
@@ -32,7 +34,7 @@ public class TuiId implements Serializable {
 			return false;
 		}
 		TuiId other = (TuiId) obj;
-		return iid == other.iid && tid == other.tid;
+		return i == other.i && tid == other.tid;
 	}
 	
 }

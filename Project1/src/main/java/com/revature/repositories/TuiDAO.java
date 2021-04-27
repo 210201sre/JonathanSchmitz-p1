@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.revature.models.TuiProto;
+import com.revature.models.TUI;
 
-public interface TuiDAO extends JpaRepository<TuiProto, Long> {
+public interface TuiDAO extends JpaRepository<TUI, Long> {
 
 	//@Query(value = "SELECT * FROM projectzero.t_u_i WHERE tid = :tid")
-	public List<TuiProto> findAllByTid(long tid);
+	public List<TUI> findAllByTid(long tid);
 
 	//@Modifying
 	//@Query(value = "DELETE FROM projectzero.t_u_i WHERE tid = :tid")
@@ -23,7 +23,7 @@ public interface TuiDAO extends JpaRepository<TuiProto, Long> {
 	public boolean existsByIid(long iid);
 	
 	//@Query(value = "SELECT * FROM projectzero.t_u_i WHERE cid = :cid")
-	public List<TuiProto> findAllByCid(long cid);
+	public List<TUI> findAllByCid(long cid);
 	
 //	@Query(value = "SELECT tid AS uid, iid, quantity, cid FROM projectzero.t_u_i WHERE tid = :tid")
 //	public List<CartItemProto> findTuiByTid(long tid);	
