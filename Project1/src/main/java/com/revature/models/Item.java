@@ -38,12 +38,16 @@ public class Item {
 	//private long mid;
 
 	//========================== HIBERNATE ADDITION ========================================
-	@OneToMany()
-	private List<Coupon> appliedCoupon;
+	//@OneToMany()
+	//private List<Coupon> appliedCoupon;
 	//ADD JSON BACKREFERENCE
 	@ManyToOne()
 	@JoinColumn(name="mid")
 	private Manufacturer itemManufacturer;
+	
+	public Item(long mid) {
+		this.itemManufacturer = new Manufacturer(mid);
+	}
 	//=======================================================================================
 	
 	public double calcPrice() {

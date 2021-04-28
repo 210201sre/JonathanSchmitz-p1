@@ -35,9 +35,13 @@ public class Manufacturer {
 	private String representative = null;
 	
 	//========================== HIBERNATE ADDITION ========================================
-	@OneToMany()
-	@JsonBackReference
-	private List<Item> manufacturersItems;
+	//@OneToMany()
+	//@JsonBackReference
+	//private List<Item> manufacturersItems;
+	
+	public Manufacturer(long m) {
+		this.mid = m;
+	}
 	//=======================================================================================
 	
 	public String toString(boolean b) {

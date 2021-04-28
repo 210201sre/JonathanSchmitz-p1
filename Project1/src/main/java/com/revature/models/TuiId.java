@@ -5,9 +5,10 @@ import java.util.Objects;
 
 public class TuiId implements Serializable {
 
-	private long tid;
+	//private long tid;
+	private long transaction;
 	//private long iid;
-	private long i;
+	private long item;
 	
 	public TuiId() {
 		super();
@@ -15,14 +16,15 @@ public class TuiId implements Serializable {
 	
 	public TuiId(long tid, long iid) {
 		super();
-		this.tid = tid;
+//		this.tid = tid;
+		this.transaction=tid;
 		//this.iid = iid;
-		this.i=iid;
+		this.item=iid;
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(i, tid);
+		return Objects.hash(item, transaction);
 	}
 	
 	@Override
@@ -34,7 +36,7 @@ public class TuiId implements Serializable {
 			return false;
 		}
 		TuiId other = (TuiId) obj;
-		return i == other.i && tid == other.tid;
+		return item == other.item && transaction == other.transaction;
 	}
 	
 }

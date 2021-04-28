@@ -39,11 +39,11 @@ public class User {
 	private Long sid;
 	
 	//========================== HIBERNATE ADDITION ========================================
-	@OneToMany()
+	@OneToMany(mappedBy="uid")
 	private List<Cart> myCart;
-	@OneToMany()
+	@OneToMany(mappedBy="uid")
 	private List<Backorder> myBackorders;
-	@OneToMany()
+	@OneToMany(mappedBy="uid")
 	private List<Transaction> myTransactions;
 	//=======================================================================================
 

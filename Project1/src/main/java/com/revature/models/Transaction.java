@@ -33,8 +33,13 @@ public class Transaction {
 	private String stamp;	
 	
 	//========================== HIBERNATE ADDITION ========================================
-	@OneToMany()
+	@OneToMany(mappedBy="transaction")
+	//@JoinColumn
 	private List<TUI> transactionItems;
+	
+	public Transaction(long tid) {
+		this.tid=tid;
+	}
 	//=======================================================================================
 	
 

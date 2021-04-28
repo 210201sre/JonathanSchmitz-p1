@@ -9,7 +9,7 @@ public class CartId implements Serializable {
 	
 	private long uid;
 	//private long iid;
-	private long i;
+	private long item;
 	
 	public CartId() {
 		super();
@@ -19,12 +19,12 @@ public class CartId implements Serializable {
 		super();
 		this.uid = uid;
 		//this.iid = iid;
-		this.i = iid;
+		this.item = iid;
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(i, uid);
+		return Objects.hash(item, uid);
 	}
 	
 	@Override
@@ -36,7 +36,7 @@ public class CartId implements Serializable {
 			return false;
 		}
 		CartId other = (CartId) obj;
-		return i == other.i && uid == other.uid;
+		return item == other.item && uid == other.uid;
 	}
 	
 	

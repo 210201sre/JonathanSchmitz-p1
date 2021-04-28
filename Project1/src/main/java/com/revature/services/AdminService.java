@@ -97,7 +97,7 @@ public class AdminService /*extends EmployeeService*/ {
 		//if require by table constraints
 		List<Transaction> ts = tDAO.findAllByUid(u.getUid());
 		for(Transaction t : ts) {
-			tuiDAO.deleteByTid(t.getTid());
+			tuiDAO.deleteByTransaction(t);
 		}
 		tDAO.deleteByUid(u.getUid());
 		boDAO.deleteByUid(u.getUid());
@@ -122,7 +122,7 @@ public class AdminService /*extends EmployeeService*/ {
 		if(k.getUid()==tDAO.findById(t.getTid()).orElseThrow(() -> new InvalidException(String.format("DELETE: Transaction %d does not exist.", t.getTid()))).getUid()) {
 			throw new InvalidException(String.format("DELETE: User %d attempted to delete their own transaction.", k.getUid()));
 		}
-		tuiDAO.deleteByTid(t.getTid());
+		tuiDAO.deleteByTransaction(t);
 		tDAO.deleteById(t.getTid());
 		return true;
 	}
@@ -140,7 +140,7 @@ public class AdminService /*extends EmployeeService*/ {
 		if (!tDAO.existsById(t.getTid())) {
 			throw new InvalidException(String.format("SELECT: Transaction %d does not exist.",t.getTid()));
 		}
-		List<TUI> cips = tuiDAO.findAllByTid(t.getTid());
+		List<TUI> cips = tuiDAO.findAllByTransaction(t);
 		List<DEPRECIATEDCartItem> cis = new ArrayList<>();
 		for (TUI tp : cips) {
 			DEPRECIATEDCartItem ci = buildTui(tp);
@@ -196,8 +196,8 @@ public class AdminService /*extends EmployeeService*/ {
 	
 	public boolean delUserTransactionItem(Key k, TUI tp) {
 		MDC.put("Action", "Adm Delete Transaction Item");
-		if(!tDAO.existsById(tp.getTid())) {
-			throw new InvalidException(String.format("DELETE: Transaction %d containing given item does not exist.",tp.getTid()));
+		if(!tDAO.existsById(tp.getTransaction().getTid())) {
+			throw new InvalidException(String.format("DELETE: Transaction %d containing given item does not exist.",tp.getTransaction().getTid()));
 		}
 		tuiDAO.delete(tp);
 		return true;
@@ -231,7 +231,7 @@ public class AdminService /*extends EmployeeService*/ {
 		}
 		if(!cDAO.findAllByCid(c.getCid()).isEmpty()
 				|| !boDAO.findAllByCid(c.getCid()).isEmpty()
-				|| !tuiDAO.findAllByCid(c.getCid()).isEmpty()) {
+				|| !tuiDAO.findAllByCoupon(c).isEmpty()) {
 			throw new InvalidException(String.format("DELETE: Coupon %d is present in a cart/backorder/transaction.", c.getCid()));
 		}
 		coupDAO.delete(c);
@@ -241,15 +241,15 @@ public class AdminService /*extends EmployeeService*/ {
 	private DEPRECIATEDCartItem buildTui(TUI tp) {//converts to CartItem and adds item as object
 		DEPRECIATEDCartItem ci = new DEPRECIATEDCartItem();
 		ci.setCartQuantity(tp.getCid());
-		ci.setUtid(tp.getTid());
+		ci.setUtid(tp.getTransaction().getTid());
 		ci.setCartQuantity(tp.getQuantity());
-		Optional<Item> i = iDAO.findById(tp.getI().getIid());
+		Optional<Item> i = iDAO.findById(tp.getItem().getIid());
 		if (i.isPresent()) {
 			ci.setI(i.get());
 		} else {
 //			log.error("SELECT: Item {} does not exist.", cip.getIid());
 //			return new CartItem();
-			throw new InvalidException(String.format("SELECT: Item %d does not exist.",tp.getI().getIid()));
+			throw new InvalidException(String.format("SELECT: Item %d does not exist.",tp.getItem().getIid()));
 		}
 		return ci;
 	}

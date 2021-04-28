@@ -3,15 +3,14 @@ package com.revature.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 
 import com.revature.models.Backorder;
+import com.revature.models.Item;
 
 public interface BackorderDAO extends JpaRepository<Backorder, Long> {
 	
 	// find out what the query is that returns a boolean
-	boolean existsByIid(long iid);
+	boolean existsByBackOrderItem(Item i);
 
 	//@Modifying
 	//@Query(value = "DELETE FROM projectzero.backorders WHERE uid = :uid")

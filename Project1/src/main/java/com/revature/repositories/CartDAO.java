@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.revature.models.Cart;
+import com.revature.models.Item;
 
 public interface CartDAO extends JpaRepository<Cart, Long>  {
 
@@ -18,13 +19,13 @@ public interface CartDAO extends JpaRepository<Cart, Long>  {
 	public void deleteByUid(long uid);
 	
 	// TODO this method may not return properly
-	public Optional<Cart> findByUidAndIid(long uid, long iid);
+	public Optional<Cart> findByUidAndItem(long uid, Item i);
 	
 	//@Query(value = "SELECT COUNT(iid) FROM projectzero.cart WHERE uid = :uid")
 	public long countByUid(/*@Param("cid")*/ long uid);
 
 	// find out what the query is that returns a boolean
-	public boolean existsByIid(long iid);
+	public boolean existsByItem(Item i);
 	
 	//@Query(value = "SELECT * FROM projectzero.cart WHERE cid = :cid")
 	public List<Cart> findAllByCid(long cid);

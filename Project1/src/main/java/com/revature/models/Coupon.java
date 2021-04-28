@@ -21,7 +21,7 @@ public class Coupon {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(insertable = false, updatable = false)
+	@Column(name="cid", insertable = false, updatable = false)
 	private long cid;
 	
 	private String cname;
@@ -30,9 +30,13 @@ public class Coupon {
 	private int percentage;//percent discount amount out of 100
 
 	//========================== HIBERNATE ADDITION ========================================
-	@ManyToOne()
-	@JsonBackReference
-	private Item i;
+	//@ManyToOne()
+	//@JsonBackReference
+	//private Item i;
+	
+	public Coupon(long cid) {
+		this.cid=cid;
+	}
 	//=======================================================================================
 
 }

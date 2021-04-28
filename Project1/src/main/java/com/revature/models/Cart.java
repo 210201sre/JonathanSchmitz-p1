@@ -35,12 +35,12 @@ public class Cart implements Serializable {
 	@Id
 	@ManyToOne()
 	@JoinColumn(name="iid")
-	private Item i;
+	private Item item;
 	//=======================================================================================
 	
 	public String toString(boolean b) {
 		String nul = "CartItemProto [uid=0, quantity=0, cid=0, i=0]";
-		String str = "CartItemProto [uid=" + uid + ", quantity=" + quantity + ", cid=" + cid + ", i=" + i + "]";
+		String str = "CartItemProto [uid=" + uid + ", quantity=" + quantity + ", cid=" + cid + ", i=" + item + "]";
 		if (str.equals(nul)) {
 			return null;
 		} else {
