@@ -78,7 +78,7 @@ CREATE TABLE projectzero.t_u_i (
 	tid BIGINT NOT NULL REFERENCES projectzero.transactions (tid),
 	iid BIGINT NOT NULL REFERENCES projectzero.items (iid),
 	quantity BIGINT NOT NULL CHECK (quantity > 0) DEFAULT 1,
-	cid BIGINT DEFAULT 0
+	cid BIGINT DEFAULT NULL
 );
 
 DROP TABLE IF EXISTS projectzero.cart;

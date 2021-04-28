@@ -6,15 +6,15 @@ import java.util.Objects;
 public class TuiId implements Serializable {
 
 	//private long tid;
-	private long transaction;
+	private Long transaction;
 	//private long iid;
-	private long item;
+	private Long item;
 	
 	public TuiId() {
 		super();
 	}
 	
-	public TuiId(long tid, long iid) {
+	public TuiId(Long tid, Long iid) {
 		super();
 //		this.tid = tid;
 		this.transaction=tid;

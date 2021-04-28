@@ -9,13 +9,13 @@ public class CartId implements Serializable {
 	
 	private long uid;
 	//private long iid;
-	private long item;
+	private Long item;
 	
 	public CartId() {
 		super();
 	}
 	
-	public CartId(long uid, long iid) {
+	public CartId(long uid, Long iid) {
 		super();
 		this.uid = uid;
 		//this.iid = iid;

@@ -240,7 +240,7 @@ public class AdminService /*extends EmployeeService*/ {
 
 	private DEPRECIATEDCartItem buildTui(TUI tp) {//converts to CartItem and adds item as object
 		DEPRECIATEDCartItem ci = new DEPRECIATEDCartItem();
-		ci.setCartQuantity(tp.getCid());
+		ci.setCartQuantity(tp.getCoupon().getCid());
 		ci.setUtid(tp.getTransaction().getTid());
 		ci.setCartQuantity(tp.getQuantity());
 		Optional<Item> i = iDAO.findById(tp.getItem().getIid());

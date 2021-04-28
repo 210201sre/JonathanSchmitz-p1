@@ -25,7 +25,7 @@ public class Item {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(insertable = false, updatable = false)
-	private long iid;
+	private Long iid;
 	private String unitname;
 	private String description;
 	private long quantity;

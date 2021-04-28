@@ -216,6 +216,7 @@ public class CustomerService {
 					cip.getUid(), cip.getCid(), k.getSid()));
 		} else {
 			if (cip.getUid() == k.getUid()) {
+				log.error(cip.toString());
 				if (iDAO.existsById(cip.getItem().getIid())) {
 					return buildCartItem(cDAO.save(cip));
 				} else {
@@ -383,7 +384,7 @@ public class CustomerService {
 	
 	private DEPRECIATEDCartItem buildTui(TUI tp) {//converts to CartItem and adds item as object
 		DEPRECIATEDCartItem ci = new DEPRECIATEDCartItem();
-		ci.setCartQuantity(tp.getCid());
+		ci.setCartQuantity(tp.getCoupon().getCid());
 		ci.setUtid(tp.getTransaction().getTid());
 		ci.setCartQuantity(tp.getQuantity());
 		Optional<Item> i = iDAO.findById(tp.getItem().getIid());

@@ -26,7 +26,7 @@ public class TUI {
 	//@Id
 	//private long iid;
 	private long quantity; // also swap FindTuiByTid in CartDAO
-	private long cid;
+	//private long cid;
 	
 	//================================ HIBERNATE ADDITION ============================
 	@Id
@@ -44,7 +44,7 @@ public class TUI {
 	@JoinColumn(name="cid", nullable=true, updatable=false, insertable=false, referencedColumnName="cid")
 	private Coupon coupon;
 	
-	public TUI(long tid, long iid, long cid) {
+	public TUI(Long tid, Long iid, Long cid) {
 		this.transaction = new Transaction(tid);
 		this.item = new Item(iid);
 		this.coupon = new Coupon(cid);
@@ -53,7 +53,7 @@ public class TUI {
 	
 	public String toString(boolean b) {
 		String nul = "TuiProto [tid=0, quantity=0, cid=0, i=0]";
-		String str = "TuiProto [tid=" + transaction + ", quantity=" + quantity + ", cid=" + cid + ", i=" + item + "]";
+		String str = "TuiProto [tid=" + transaction + ", quantity=" + quantity + ", cid=" + coupon + ", i=" + item + "]";
 		if (str.equals(nul)) {
 			return null;
 		} else {
