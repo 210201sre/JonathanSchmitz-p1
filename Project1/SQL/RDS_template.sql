@@ -1,3 +1,4 @@
+DROP SCHEMA IF EXISTS projectzero CASCADE;
 CREATE SCHEMA IF NOT EXISTS projectzero;
 DROP TABLE IF EXISTS projectzero.t_u_i;
 DROP TABLE IF EXISTS projectzero.backorders;
@@ -63,7 +64,7 @@ CREATE TABLE projectzero.items (
 DROP TABLE IF EXISTS projectzero.coupons;
 
 CREATE TABLE projectzero.coupons (
-	cid BIGSERIAL,
+	cid BIGSERIAL PRIMARY KEY,
 	cname VARCHAR (108),
 	description VARCHAR (218),
 	discount DOUBLE PRECISION CHECK (discount >= 0.00) DEFAULT 0,
