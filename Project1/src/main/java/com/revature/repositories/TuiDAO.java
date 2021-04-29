@@ -12,21 +12,21 @@ import com.revature.models.Transaction;
 public interface TuiDAO extends JpaRepository<TUI, Long> {
 
 	//@Query(value = "SELECT * FROM projectzero.t_u_i WHERE tid = :tid")
-	public List<TUI> findAllByTransaction(Transaction t);
+	public List<TUI> findAllByTid(long tid);
 
 	//@Modifying
 	//@Query(value = "DELETE FROM projectzero.t_u_i WHERE tid = :tid")
-	public void deleteByTransaction(Transaction t);
+	public void deleteByTid(long tid);
 
 	//@Modifying
 	//@Query(value = "DELETE FROM projectzero.t_u_i WHERE tid = :tid AND iid = :iid")
-	public void deleteByTransactionAndItem(Transaction t, Item i);
+	public void deleteByTidAndIid(long tid, long iid);
 
 	// find out what the query is that returns a boolean
-	public boolean existsByItem(Item i);
+	public boolean existsByIid(long iid);
 	
 	//@Query(value = "SELECT * FROM projectzero.t_u_i WHERE cid = :cid")
-	public List<TUI> findAllByCoupon(Coupon c);
+	public List<TUI> findAllByCid(long cid);
 	
 //	@Query(value = "SELECT tid AS uid, iid, quantity, cid FROM projectzero.t_u_i WHERE tid = :tid")
 //	public List<CartItemProto> findTuiByTid(long tid);	

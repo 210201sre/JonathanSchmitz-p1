@@ -10,7 +10,7 @@ import com.revature.models.Item;
 public interface BackorderDAO extends JpaRepository<Backorder, Long> {
 	
 	// find out what the query is that returns a boolean
-	boolean existsByBackOrderItem(Item i);
+	boolean existsByIid(long iid);
 
 	//@Modifying
 	//@Query(value = "DELETE FROM projectzero.backorders WHERE uid = :uid")

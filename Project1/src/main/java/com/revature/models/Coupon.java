@@ -22,7 +22,7 @@ public class Coupon {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="cid", insertable = false, updatable = false)
-	private Long cid;
+	private long cid;
 	
 	private String cname;
 	private String description;

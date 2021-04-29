@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "items")
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data @NoArgsConstructor //@AllArgsConstructor
 public class Item {
 
 	@Id
@@ -36,6 +36,8 @@ public class Item {
 	private Date dateadded;
 	private double unitcost; //manufacturer to seller
 	//private long mid;
+	@Column(insertable=false, updatable=false)
+	private long mid;
 
 	//========================== HIBERNATE ADDITION ========================================
 	//@OneToMany()
@@ -47,6 +49,22 @@ public class Item {
 	
 	public Item(long mid) {
 		this.itemManufacturer = new Manufacturer(mid);
+	}
+	
+	public Item(Long iid, String unitname, String description, long quantity, double sellingprice, long totalpurchases,
+			Date dateadded, double unitcost, long mid, Manufacturer itemManufacturer) {
+		super();
+		this.iid = iid;
+		this.unitname = unitname;
+		this.description = description;
+		this.quantity = quantity;
+		this.sellingprice = sellingprice;
+		this.totalpurchases = totalpurchases;
+		this.dateadded = dateadded;
+		this.unitcost = unitcost;
+		this.mid = mid;
+		//this.itemManufacturer = itemManufacturer;
+		this.itemManufacturer=new Manufacturer(mid);
 	}
 	//=======================================================================================
 	

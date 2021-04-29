@@ -1,20 +1,19 @@
 package com.revature.models;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
-@Data
+@Data @NoArgsConstructor @AllArgsConstructor
 public class User {
 
 	@Id
@@ -39,12 +38,13 @@ public class User {
 	private Long sid;
 	
 	//========================== HIBERNATE ADDITION ========================================
-	@OneToMany(mappedBy="uid")
-	private List<Cart> myCart;
-	@OneToMany(mappedBy="uid")
-	private List<Backorder> myBackorders;
-	@OneToMany(mappedBy="uid")
-	private List<Transaction> myTransactions;
+//	TODO: REMOVE ALL OF THE FOLLOWING, will speed up request time significantly
+	//@OneToMany(mappedBy="uid")
+	//private List<Cart> myCart;
+	//@OneToMany(mappedBy="uid")
+	//private List<Backorder> myBackorders;
+	//@OneToMany(mappedBy="uid")
+	//private List<Transaction> myTransactions;
 	//=======================================================================================
 
 	//specially designed toString() to identify new Objects
@@ -58,6 +58,11 @@ public class User {
 		} else {
 			return str;
 		}
+	}
+
+	public User(long uid2) {
+		this.uid=uid2;
+		// TODO Auto-generated constructor stub
 	}
 	
 }

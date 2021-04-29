@@ -5,7 +5,8 @@ import java.util.Objects;
 
 public class BoId implements Serializable {
 
-	private long uid;
+//	private long uid;
+	private long user;
 	//private long iid;
 	private long backOrderItem;
 	
@@ -15,14 +16,15 @@ public class BoId implements Serializable {
 	
 	public BoId(long uid, long iid) {
 		super();
-		this.uid = uid;
+//		this.uid = uid;
+		this.user = uid;
 		//this.iid = iid;
 		this.backOrderItem=iid;
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(backOrderItem, uid);
+		return Objects.hash(backOrderItem, user);
 	}
 	
 	@Override
@@ -34,7 +36,7 @@ public class BoId implements Serializable {
 			return false;
 		}
 		BoId other = (BoId) obj;
-		return backOrderItem == other.backOrderItem && uid == other.uid;
+		return backOrderItem == other.backOrderItem && user == other.user;
 	}
 	
 	

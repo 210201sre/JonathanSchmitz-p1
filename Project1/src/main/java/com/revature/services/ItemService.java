@@ -54,9 +54,9 @@ public class ItemService {
 		if(!iDAO.existsById(i.getIid())) {
 			throw new InvalidException(String.format("DELETE: Item %d does not exist.", i.getIid()));
 		}
-		if(cDAO.existsByItem(i)
-				|| boDAO.existsByBackOrderItem(i)
-				|| tuiDAO.existsByItem(i)) {
+		if(cDAO.existsByIid(i.getIid())
+				|| boDAO.existsByIid(i.getIid())
+				|| tuiDAO.existsByIid(i.getIid())) {
 			throw new InvalidException(String.format("DELETE: Item %d is present in a cart/backorder/transaction.", i.getIid()));
 		}
 		iDAO.delete(i);	
@@ -93,22 +93,22 @@ public class ItemService {
 		if (m.getMid() < 1) {
 			throw new InvalidException (String.format("UPDATE: Invalid ID %d passed during Manufacturer modification.", m.getMid()));
 		}
-		List<Item> is = iDAO.findAllByItemManufacturer(m);
+		List<Item> is = iDAO.findAllByMid(m.getMid());
 		if (is != null && !is.isEmpty()) {
 			for(Item i : is) {
-				if (tuiDAO.existsById(i.getIid()) || cDAO.existsByItem(i) || boDAO.existsByBackOrderItem(i)) {
+				if (tuiDAO.existsById(i.getIid()) || cDAO.existsByIid(i.getIid()) || boDAO.existsByIid(i.getIid())) {
 					throw new InvalidException(String.format("DELETE: Manufacturer item %s exists in cart/transaction/backorder.%nCannot remove manufacturer %s.", i.getUnitname(), m.getMname()));
 				}
 			}
 		}
-		iDAO.deleteByItemManufacturer(m);
+		iDAO.deleteByMid(m.getMid());
 		mDAO.deleteById(m.getMid());
 		return true;
 	}
 
 	public List<Item> displaySupplierItems(long mid) {
 		
-		return iDAO.findAllByItemManufacturer(new Manufacturer(mid));
+		return iDAO.findAllByMid(mid);
 	}
 	
 	public Manufacturer itemSupplier(long mid) {

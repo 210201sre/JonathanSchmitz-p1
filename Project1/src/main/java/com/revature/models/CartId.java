@@ -7,7 +7,7 @@ import javax.persistence.Column;
 
 public class CartId implements Serializable {
 	
-	private long uid;
+	private Long user;
 	//private long iid;
 	private Long item;
 	
@@ -17,14 +17,15 @@ public class CartId implements Serializable {
 	
 	public CartId(long uid, Long iid) {
 		super();
-		this.uid = uid;
+		//this.uid = uid;
+		this.user=uid;
 		//this.iid = iid;
 		this.item = iid;
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(item, uid);
+		return Objects.hash(item, user);
 	}
 	
 	@Override
@@ -36,7 +37,7 @@ public class CartId implements Serializable {
 			return false;
 		}
 		CartId other = (CartId) obj;
-		return item == other.item && uid == other.uid;
+		return item == other.item && user == other.user;
 	}
 	
 	
